@@ -1,0 +1,38 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def isPalindrome(self, head: ListNode) -> bool:
+        # stack
+        tmp = head
+        stack = []
+        l = 0
+        while tmp:
+            stack.append(tmp.val)
+            tmp = tmp.next
+            l += 1
+        l //= 2
+        while l > 0:
+            cur = stack.pop()
+            if cur != head.val:
+                return False
+            head = head.next
+            l -= 1
+        return True
+    
+        # in-place 
+        rev = None
+        slow = fast = head
+        while fast and fast.next:
+            fast = fast.next.next
+            slow, rev, rev.next = slow.next, slow, rev
+        if fast:
+            slow = slow.next
+        while slow:
+            if slow.val != rev.val:
+                return False
+            slow = slow.next
+            rev = rev.next
+        return True
