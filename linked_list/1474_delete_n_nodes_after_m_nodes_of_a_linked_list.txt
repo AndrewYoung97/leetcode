@@ -1,0 +1,22 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def deleteNodes(self, head: ListNode, m: int, n: int) -> ListNode:
+        l = r = head
+        while r:
+            for i in range(m-1):
+                if not r:
+                    break
+                l, r = l.next, r.next
+            if not r:
+                break
+            for i in range(n + 1):
+                if not r:
+                    break
+                r = r.next
+            l.next = r
+            l = r
+        return head
