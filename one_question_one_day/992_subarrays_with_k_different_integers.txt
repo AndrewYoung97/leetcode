@@ -1,0 +1,39 @@
+class Solution:
+    # At most K - at most k -1 (slow)
+    def subarraysAtMostK(self, A, K):
+        d = {}
+        l = r = 0
+        rst = 0
+        for r in range(len(A)):
+            d[A[r]] = r
+            if len(d.keys()) > K:
+                l = min(d.values())
+                del d[A[l]]
+                l += 1
+            rst += r - l + 1
+        return rst
+            
+    def subarraysWithKDistinct(self, A: List[int], K: int) -> int:
+        return self.subarraysAtMostK(A, K) - self.subarraysAtMostK(A, K - 1)
+            
+    # exactly k
+    def subarraysWithKDistinct(self, A: List[int], K: int) -> int:
+        d = {}
+        l = r = 0
+        rst = 0
+        l_max = 0
+        for r in range(len(A)):
+            d[A[r]] = d.get(A[r], 0) + 1
+            if len(d) > K:
+                while d[A[l_max]] > 1:
+                    d[A[l_max]] -= 1
+                    l_max += 1
+                del d[A[l_max]]
+                l_max += 1
+                l = l_max
+            if len(d) == K:
+                while d[A[l_max]] > 1:
+                    d[A[l_max]] -= 1
+                    l_max += 1
+                rst += l_max - l + 1
+        return rst
