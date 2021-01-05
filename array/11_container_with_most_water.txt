@@ -1,0 +1,12 @@
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        left, right = 0, len(height) - 1
+        cur_max = 0
+        while left < right:
+            if height[left] <= height[right]:
+                cur_max = max(height[left] * (right - left), cur_max)
+                left += 1
+            else:
+                cur_max = max(height[right] * (right - left), cur_max)
+                right -= 1
+        return cur_max
