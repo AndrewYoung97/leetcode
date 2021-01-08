@@ -1,0 +1,27 @@
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        # backtracing
+        def dfs(remain, cur_x, cur_y):
+            if len(remain) == 0:
+                return True
+            if board[cur_y][cur_x] != remain[0]:
+                return False
+            if len(remain) == 1:
+                return True
+            board[cur_y][cur_x] = '1'
+            if cur_x + 1 < len(board[0]) and dfs(remain[1:], cur_x + 1, cur_y):
+                return True
+            if cur_x - 1 >= 0 and dfs(remain[1:], cur_x - 1, cur_y):
+                return True
+            if cur_y + 1 < len(board) and dfs(remain[1:], cur_x, cur_y + 1):
+                return True
+            if cur_y - 1 >= 0 and dfs(remain[1:], cur_x, cur_y - 1):
+                return True
+            board[cur_y][cur_x] = remain[0]
+            return False
+        
+        for i in range(len(board[0])):
+            for j in range(len(board)):
+                if dfs(word, i, j):
+                    return True  
+        return False
