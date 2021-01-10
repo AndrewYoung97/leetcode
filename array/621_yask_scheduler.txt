@@ -1,0 +1,20 @@
+class Solution:
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        # greedy
+        d = {}
+        for task in tasks:
+            d[task] = d.get(task, 0) + 1
+        freqs = sorted(list(d.values()), reverse=True)
+        max_idle = (freqs[0] - 1) * n
+        for freq in freqs[1:]:
+            max_idle -= min(freqs[0] - 1, freq)
+        return len(tasks) + max(max_idle, 0)
+        
+        # math
+        d = {}
+        for task in tasks:
+            d[task] = d.get(task, 0) + 1
+        freqs = list(d.values())
+        max_freq = max(freqs)
+        freq_max_num = freqs.count(max_freq)
+        return max(len(tasks), (max_freq - 1) * (n + 1) + freq_max_num)

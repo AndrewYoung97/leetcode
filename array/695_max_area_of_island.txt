@@ -1,0 +1,9 @@
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        visited = set()
+        def area(cur_row, cur_col):
+            if not (0 <= cur_row < len(grid) and 0 <= cur_col < len(grid[0]) and grid[cur_row][cur_col] and (cur_row, cur_col) not in visited):
+                return 0
+            visited.add((cur_row, cur_col))
+            return 1 + area(cur_row + 1, cur_col) + area(cur_row - 1, cur_col) + area(cur_row, cur_col + 1) + area(cur_row, cur_col - 1)
+        return max([area(i,j) for i in range(len(grid)) for j in range(len(grid[0]))])

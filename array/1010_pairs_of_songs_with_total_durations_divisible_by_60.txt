@@ -1,0 +1,25 @@
+class Solution:
+    def numPairsDivisibleBy60(self, time: List[int]) -> int:
+        # hashmap
+        rst = 0
+        d = {}
+        for t in time:
+            cur_module = t % 60
+            rst += d.get((60 - cur_module) % 60, 0)
+            d[cur_module] = d.get(cur_module, 0) + 1
+        return rst
+            
+        # array
+        rst = 0
+        count_array = [0] * 60
+        for t in time:
+            count_array[t % 60] += 1
+        for i in range(31):
+            if count_array[i] == 0:
+                continue
+            if i == 0 or i == 30:
+                if count_array[i] > 1:
+                    rst += count_array[i] * (count_array[i] - 1) // 2
+            else:
+                rst += count_array[i] * count_array[60 - i]
+        return rst
