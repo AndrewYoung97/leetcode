@@ -1,0 +1,10 @@
+class Solution:
+    def maximumSwap(self, num: int) -> int:
+        num_list = list(map(int, str(num)))
+        idx_dict = {v:i for i, v in enumerate(num_list)}
+        for i, v in enumerate(num_list):
+            for l in range(9, v, -1):
+                if idx_dict.get(l, -1) > i:
+                    num_list[i], num_list[idx_dict[l]] = num_list[idx_dict[l]], num_list[i]
+                    return int("".join(list(map(str, num_list))))
+        return num
