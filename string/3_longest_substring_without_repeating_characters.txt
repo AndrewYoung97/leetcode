@@ -1,0 +1,11 @@
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        cur_max = 0
+        idx_dict = {}
+        l = r = 0
+        for r in range(len(s)):
+            if s[r] in idx_dict and idx_dict[s[r]] >= l:
+                l = idx_dict[s[r]] + 1
+            idx_dict[s[r]] = r
+            cur_max = max(cur_max, r - l + 1)
+        return cur_max

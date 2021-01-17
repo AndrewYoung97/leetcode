@@ -1,0 +1,28 @@
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        carry_on = '0'
+        rst = []
+        while a or b:
+            one = '0'
+            if a:
+                one = a[-1]
+                a = a[:-1]
+            two = '0'
+            if b:
+                two = b[-1]
+                b = b[:-1]
+            if one == two == '0':
+                rst.append(carry_on)
+                carry_on = '0'
+            elif one == two == '1':
+                rst.append(carry_on)
+                carry_on = '1'
+            else:
+                if carry_on == '1':
+                    rst.append('0')
+                else:
+                    rst.append('1')
+        if carry_on == '1':
+            rst.append('1')
+        return ''.join(rst[::-1])
+        

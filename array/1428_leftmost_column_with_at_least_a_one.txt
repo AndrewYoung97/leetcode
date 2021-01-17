@@ -1,0 +1,48 @@
+# """
+# This is BinaryMatrix's API interface.
+# You should not implement it, or speculate about its implementation
+# """
+#class BinaryMatrix(object):
+#    def get(self, row: int, col: int) -> int:
+#    def dimensions(self) -> list[]:
+
+class Solution:
+    def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
+        # binary search
+        def binarySearch(cur_row, col_num):
+            l = 0
+            r = col_num - 1
+            while l <= r:
+                mid = l + (r - l) // 2
+                cur_val = binaryMatrix.get(cur_row, mid)
+                if mid > 0:
+                    prev_val = binaryMatrix.get(cur_row, mid - 1)
+                if cur_val == 1 and (mid == 0 or prev_val == 0):
+                    return mid
+                if cur_val == 1 and prev_val == 1:
+                    r = mid - 1
+                if cur_val == 0:
+                    l = mid + 1
+        row_num, col_num = binaryMatrix.dimensions()
+        rst = -1
+        for r in range(row_num):
+            if binaryMatrix.get(r, col_num - 1) == 1:
+                rst = binarySearch(r, col_num)
+                break
+        for row in range(r+1, row_num):
+            if rst == 0:
+                return 0
+            elif binaryMatrix.get(row, rst - 1) == 1:
+                rst = binarySearch(row, col_num)
+        return rst
+        
+        # 2
+        m, n = binaryMatrix.dimensions()
+        cur_row = 0
+        cur_col = n - 1
+        while cur_row < m and cur_col >= 0:
+            if binaryMatrix.get(cur_row, cur_col) == 0:
+                cur_row += 1
+            else:
+                cur_col -= 1
+        return cur_col + 1 if cur_col + 1 < n else -1
