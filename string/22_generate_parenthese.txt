@@ -1,0 +1,12 @@
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        rst = []
+        def helper(cur_s, left=0, right=0):
+            if len(cur_s) == 2 * n:
+                rst.append(cur_s)
+            if left < n:
+                helper(cur_s + '(', left + 1, right)
+            if right < left:
+                helper(cur_s + ')', left, right + 1)
+        helper('')
+        return rst 

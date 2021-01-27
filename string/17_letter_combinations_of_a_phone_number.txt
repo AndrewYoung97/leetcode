@@ -1,0 +1,15 @@
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        ref = ['', '', 'abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs', 'tuv', 'wxyz']
+        rst = []
+        def helper(digits, current_str, rst):
+            if not digits:
+                rst.append(current_str)
+                return
+            all_letters = ref[int(digits[0])]
+            for letter in all_letters:
+                new_str = current_str + letter
+                helper(digits[1:], new_str, rst)
+        if digits:
+            helper(digits, '', rst)
+        return rst
