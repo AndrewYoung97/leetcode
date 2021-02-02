@@ -1,0 +1,10 @@
+class Solution:
+    def reorganizeString(self, S: str) -> str:
+        sorted_s = []
+        for count, c in sorted((S.count(x), x) for x in set(S)):
+            if count > (len(S) + 1) // 2:
+                return ''
+            sorted_s += [c] * count
+        rst = [0] * len(sorted_s)
+        rst[::2], rst[1::2] = sorted_s[len(S) // 2:], sorted_s[:len(S) // 2]
+        return ''.join(rst)

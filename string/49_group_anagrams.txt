@@ -1,0 +1,16 @@
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        # defaultdict
+        rst = defaultdict(list)
+        for s in strs:
+            rst[tuple(sorted(s))].append(s)
+        return list(rst.values())
+    
+        # count
+        rst = defaultdict(list)
+        for s in strs:
+            current_count = [0] *  26
+            for c in s:
+                current_count[ord(c) - ord('a')] += 1
+            rst[tuple(current_count)].append(s)
+        return rst.values()
