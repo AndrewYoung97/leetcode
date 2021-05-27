@@ -1,0 +1,14 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isSubtree(self, root: TreeNode, subRoot: TreeNode) -> bool:
+        def postTraverse(root):
+            if not root:
+                return '#'
+            return postTraverse(root.left)  + postTraverse(root.right) + "'" + str(root.val) + "'"
+
+        return postTraverse(subRoot) in postTraverse(root)

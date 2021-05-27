@@ -1,0 +1,17 @@
+from sortedcontainers import SortedList
+class Solution:
+    def numTeams(self, rating: List[int]) -> int:
+        def helper(sl, x):
+            s = sl.bisect_left(x)
+            l = len(sl) - s
+            return s, l
+        left = SortedList([rating[0]])
+        right = SortedList(rating[1:])
+        rst = 0
+        for x in rating[1:-1]:
+            right.remove(x)
+            s_l, l_l = helper(left, x)
+            s_r, l_r = helper(right, x)
+            left.add(x)
+            rst += s_l * l_r + l_l * s_r
+        return rst
