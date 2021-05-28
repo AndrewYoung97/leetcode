@@ -1,0 +1,16 @@
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        rst = []
+        def helper(target, nums, cur_list):
+            for i in range(len(nums)):
+                if nums[i] == target:
+                    rst.append(cur_list + [nums[i]])
+                    break
+                elif nums[i] > target:
+                    break
+                cur_list.append(nums[i])
+                helper(target - nums[i], nums[i:], cur_list)
+                cur_list.pop()
+        candidates.sort()
+        helper(target, candidates, [])
+        return rst
