@@ -1,0 +1,9 @@
+class Solution:
+    def findPairs(self, nums: List[int], k: int) -> int:
+        nums = collections.Counter(nums)
+        if k == 0:
+            return len([x for x in nums if nums[x] > 1])
+        rst = 0
+        for x in nums:
+            rst += int(x + k in nums)
+        return rst
