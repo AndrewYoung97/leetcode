@@ -1,0 +1,22 @@
+class WordDistance:
+
+    def __init__(self, wordsDict: List[str]):
+        self.word_idx = {}
+        for idx, word in enumerate(wordsDict):
+            if word not in self.word_idx:
+                self.word_idx[word] = [idx]
+            else:
+                self.word_idx[word].append(idx)
+
+    def shortest(self, word1: str, word2: str) -> int:
+        l1 = self.word_idx[word1]
+        l2 = self.word_idx[word2]
+        f = s = 0
+        rst = float('INF')
+        while f < len(l1) and s < len(l2):
+            rst = min(rst, abs(l1[f] - l2[s]))
+            if l1[f] > l2[s]:
+                s += 1
+            else:
+                f += 1
+        return rst
