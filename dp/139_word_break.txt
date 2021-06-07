@@ -1,0 +1,28 @@
+class Solution:
+    # memoization
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        memo = [False] * len(s)
+        memo.append(True)
+        for start in range(0, len(s) + 1)[::-1]:
+            for end in range(start + 1, len(s) + 1):
+                if s[start:end] in wordDict and memo[end]:
+                    memo[start] = True
+                    break
+        return memo[0]
+    
+    # BFS
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        q = deque()
+        visited = set()
+        q.append(0)
+        while q:
+            start = q.popleft()
+            if start in visited:
+                continue
+            if start == len(s):
+                return True
+            for end in range(start + 1, len(s) + 1):
+                if s[start : end] in wordDict:
+                    q.append(end)
+            visited.add(start)
+        return False
