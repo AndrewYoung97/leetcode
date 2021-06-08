@@ -1,0 +1,29 @@
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        # noraml dp
+        dp = [1] * len(nums)
+        rst = 1
+        for i in range(1, len(nums)):
+            for j in range(i):
+                if nums[j] < nums[i]:
+                    dp[i] = max(dp[i], 1 + dp[j])
+            rst = max(rst, dp[i])
+        return rst
+        
+        # dp with binary search (smallest tail for each length)
+        tail_arr = [0] * len(nums)
+        size = 0
+        tail_arr[0] = nums[0]
+        for num in nums[1:]:
+            l = 0
+            r = size
+            while l <= r:
+                mid = l + (r - l) // 2
+                if tail_arr[mid] >= num:
+                    r = mid - 1
+                else:
+                    l = mid + 1
+            tail_arr[l] = num
+            if l == size + 1:
+                size += 1
+        return size + 1
