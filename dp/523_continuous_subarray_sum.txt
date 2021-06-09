@@ -1,0 +1,13 @@
+class Solution:
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        dp = {}
+        dp[0] = -1
+        cur_sum = 0
+        for i in range(len(nums)):
+            cur_sum += nums[i]
+            if cur_sum % k not in dp:
+                dp[cur_sum % k] = i
+            else:
+                if i - dp[cur_sum % k] >= 2:
+                    return True
+        return False
