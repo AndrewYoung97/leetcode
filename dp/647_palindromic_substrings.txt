@@ -1,0 +1,48 @@
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        # center
+        def helper(center):
+            rst = 0
+            if center % 2 == 0:
+                rst += 1
+                center //= 2
+                l, r = center - 1, center + 1
+                while l >= 0 and r < len(s):
+                    if s[l] == s[r]:
+                        rst += 1
+                    else:
+                        break
+                    l -= 1
+                    r += 1
+            else:
+                l, r = (center - 1) // 2, (center + 1) // 2
+                while l >= 0 and r < len(s):
+                    if s[l] == s[r]:
+                        rst += 1
+                    else:
+                        break
+                    l -= 1
+                    r += 1
+            return rst
+        
+        rst = 0
+        for i in range(len(s) * 2 - 1):
+            rst += helper(i)
+        return rst
+    
+        # dp
+        dp = [[False] * len(s) for i in range(len(s))]
+        rst = 0
+        for i in range(len(s)):
+            dp[i][i] = True
+            rst += 1
+        for i in range(len(s) - 1)[::-1]:
+            for j in range(i + 1, len(s)):
+                if s[i] == s[j]:
+                    if i + 1 == j:
+                        dp[i][j] = True
+                        rst += 1
+                    else:
+                        dp[i][j] = dp[i + 1][j - 1]
+                        rst += int(dp[i][j])
+        return rst
