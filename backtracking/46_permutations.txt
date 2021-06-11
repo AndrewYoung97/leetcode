@@ -1,0 +1,14 @@
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        rst = []
+        def helper(cur_rst, nums):
+            if not nums:
+                rst.append(copy.deepcopy(cur_rst))
+                return
+            for i in range(len(nums)):
+                cur_rst.append(nums[i])
+                nums[i], nums[0] = nums[0], nums[i]
+                helper(cur_rst, nums[1:])
+                cur_rst.pop()
+        helper([], nums)
+        return rst

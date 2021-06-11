@@ -1,0 +1,13 @@
+class Solution:
+    def deleteAndEarn(self, nums: List[int]) -> int:
+        count = collections.Counter(nums)
+        prev = None
+        using = 0
+        avoid = 0
+        for k in sorted(count):
+            if k - 1 == prev:
+                avoid, using = max(avoid, using), avoid + count[k] * k
+            else:
+                avoid, using = max(avoid, using), max(avoid, using) + count[k] * k
+            prev = k
+        return max(using, avoid)
