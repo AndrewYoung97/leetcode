@@ -1,0 +1,30 @@
+class WordDictionary:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.trie = {}
+
+    def addWord(self, word: str) -> None:
+        node = self.trie
+        
+        for c in word:
+            if c not in node:
+                node[c] = {}
+            node = node[c]
+        node['#'] = {}
+
+    def search(self, word: str) -> bool:
+        def helper(node, word):
+            for i, c in enumerate(word):
+                if c not in node:
+                    if c == '.':
+                        for x in node:
+                            if x != '#' and helper(node[x], word[i + 1:]):
+                                return True
+                    return False
+                else:
+                    node = node[c]
+            return True if '#' in node else False
+        return helper(self.trie, word)
