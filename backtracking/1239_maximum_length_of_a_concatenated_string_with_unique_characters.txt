@@ -1,0 +1,11 @@
+class Solution:
+    def maxLength(self, arr: List[str]) -> int:
+        dp = []
+        for s in arr:
+            set_s = set(s)
+            if len(set_s) == len(s):
+                for f in dp:
+                    if not (f & set_s):
+                        dp.append(f | set_s)
+                dp.append(set_s)
+        return max(len(x) for x in dp) if dp else 0
