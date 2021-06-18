@@ -1,0 +1,16 @@
+class Solution:
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        rst = [-1] * len(nums)
+        stack = []
+        for idx, num in enumerate(nums):
+            while stack and num > stack[-1][1]:
+                cur_pop = stack.pop()
+                rst[cur_pop[0]] = num
+            stack.append([idx, num])
+        for num in nums:
+            if not stack:
+                break
+            while stack and num > stack[-1][1]:
+                cur_pop = stack.pop()
+                rst[cur_pop[0]] = num
+        return rst
