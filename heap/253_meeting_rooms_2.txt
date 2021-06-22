@@ -1,0 +1,11 @@
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        intervals = sorted(intervals, key=lambda x:x[0])
+        room_inuse = []
+        rst = 1
+        for meeting in intervals:
+            while room_inuse and room_inuse[0] <= meeting[0]:
+                heapq.heappop(room_inuse)
+            heapq.heappush(room_inuse, meeting[1])
+            rst = max(rst, len(room_inuse))
+        return rst
