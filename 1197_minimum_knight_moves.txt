@@ -1,0 +1,35 @@
+class Solution:
+    def minKnightMoves(self, x: int, y: int) -> int:
+        # bfs
+        if x == 0 and y == 0:
+            return 0
+        queue = set([(0, 0)])
+        visited = set()
+        layer = 0
+        while True:
+            new_queue = set()
+            for axis in queue:
+                if axis in visited:
+                    continue
+                if (x - axis[0]) ** 2 + (y - axis[1]) ** 2 == 5:
+                    return layer + 1
+                visited.add(axis)
+                for x_add in [-1, 1]:
+                    for y_add in [-2, 2]:
+                        new_queue.add((axis[0] + x_add, axis[1] + y_add))
+                for x_add in [-2, 2]:
+                    for y_add in [-1, 1]:
+                        new_queue.add((axis[0] + x_add, axis[1] + y_add))
+            layer += 1
+            queue = new_queue
+        
+        # dp, dfs
+        @lru_cache(maxsize=None)
+        def dfs(x, y):
+            if x + y == 0:
+                return 0
+            if x + y == 2:
+                return 2
+            else:
+                return min(dfs(abs(x - 1), abs(y - 2)), dfs(abs(x - 2), abs(y - 1))) + 1
+        return dfs(abs(x), abs(y))

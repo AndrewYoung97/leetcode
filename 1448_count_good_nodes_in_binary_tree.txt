@@ -1,0 +1,15 @@
+class Solution:
+    def goodNodes(self, root: TreeNode) -> int:
+        def helper(node, cur_max):
+            if not node:
+                return 0
+            rst = 0
+            if node.val >= cur_max:
+                rst += 1
+                rst += helper(node.left, node.val)
+                rst += helper(node.right, node.val)
+            else:
+                rst += helper(node.left, cur_max)
+                rst += helper(node.right,cur_max)
+            return rst
+        return helper(root, root.val)
