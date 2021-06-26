@@ -1,0 +1,23 @@
+from sortedcontainers import SortedList
+
+class HitCounter:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.tree_map = SortedList()
+
+    def hit(self, timestamp: int) -> None:
+        """
+        Record a hit.
+        @param timestamp - The current timestamp (in seconds granularity).
+        """
+        self.tree_map.add(timestamp)
+
+    def getHits(self, timestamp: int) -> int:
+        """
+        Return the number of hits in the past 5 minutes.
+        @param timestamp - The current timestamp (in seconds granularity).
+        """
+        return len(self.tree_map) - self.tree_map.bisect_right(timestamp - 300)

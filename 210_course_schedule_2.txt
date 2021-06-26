@@ -1,0 +1,32 @@
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        adj_list = collections.defaultdict(list)
+        pre = collections.defaultdict(list)
+        for comb in prerequisites:
+            adj_list[comb[1]].append(comb[0])
+            pre[comb[0]].append(comb[1])
+        rst = []
+        visited = set()
+        path_node = set()
+        flag = True
+        def helper(src):
+            nonlocal flag
+            if flag and src not in visited:
+                if src in path_node:
+                    flag = False
+                    return
+                path_node.add(src)
+                for dest in adj_list[src]:
+                    helper(dest)
+                rst.append(src)
+                path_node.remove(src)
+                visited.add(src)
+            
+        for src in range(numCourses):
+            if src in visited:
+                continue
+            if src not in pre:
+                helper(src)
+                if not flag:
+                    return []
+        return rst[::-1] if len(rst) == numCourses else []
