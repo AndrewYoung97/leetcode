@@ -1,0 +1,14 @@
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        # heap
+        freq_dict = {}
+        for x in nums:
+            freq_dict[x] = freq_dict.get(x, 0) + 1
+        heap = []
+        for num, freq in freq_dict.items():
+            if len(heap) < k:
+                heapq.heappush(heap, (freq, num))
+            elif freq > heap[0][0]:
+                heapq.heappop(heap)
+                heapq.heappush(heap, (freq, num))
+        return [x[1] for x in heap]

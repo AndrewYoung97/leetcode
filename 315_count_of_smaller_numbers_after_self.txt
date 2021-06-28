@@ -1,0 +1,10 @@
+import sortedcontainers
+
+class Solution:
+    def countSmaller(self, nums: List[int]) -> List[int]:
+        rst = []
+        tree_map = sortedcontainers.SortedList()
+        for x in nums[::-1]:
+            rst.append(tree_map.bisect_left(x))
+            tree_map.add(x)
+        return rst[::-1]

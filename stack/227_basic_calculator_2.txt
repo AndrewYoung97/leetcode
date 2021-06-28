@@ -1,0 +1,22 @@
+class Solution:
+    def calculate(self, s: str) -> int:
+        rst, last, current = 0, 0, 0
+        operation = '+'
+        for idx, c in enumerate(s):
+            if c.isdigit():
+                current = current * 10 + int(c)
+            if not (c.isspace() or c.isdigit()) or idx == len(s) - 1:
+                if operation == '*':
+                    last *= current
+                if operation == '/':
+                    last /= current
+                    last = int(last)
+                if operation == '+':
+                    rst += last
+                    last = current
+                if operation == '-':
+                    rst += last
+                    last = -current
+                operation = c
+                current = 0
+        return rst + last
