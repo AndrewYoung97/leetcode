@@ -1,0 +1,30 @@
+class Solution:
+    def longestStrChain(self, words: List[str]) -> int:
+        # memoization
+        words = set(words)
+        
+        @lru_cache(maxsize=None)
+        def dfs(word):
+            rst = 0
+            for i in range(len(word)):
+                new_word = word[:i] + word[i + 1:]
+                if new_word in words:
+                    rst = max(rst, dfs(new_word))
+            return 1 + rst
+        rst = 0
+        for word in words:
+            rst = max(dfs(word), rst)
+        return rst
+    
+        # dp
+        words = sorted(words, key=lambda x:len(x))
+        dp = {'': 0}
+        rst = 0
+        for word in words:
+            cur_rst = 0
+            for i in range(len(word)):
+                new_word = word[:i] + word[i + 1:]
+                cur_rst = max(cur_rst, dp.get(new_word, 0))
+            dp[word] = 1 + cur_rst
+            rst = max(rst, dp[word])
+        return rst

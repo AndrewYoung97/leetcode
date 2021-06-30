@@ -1,0 +1,20 @@
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        rst = None
+        def helper(node, p, q):
+            nonlocal rst
+            if not node:
+                return 0
+            mid = right = left = 0
+            if node.val == p.val or node.val == q.val:
+                mid = 1
+            if helper(node.left, p, q):
+                left = 1
+            if helper(node.right, p, q):
+                right = 1
+            if mid + right + left == 2:
+                rst = node
+            if mid or right or left:
+                return 1
+        helper(root, p, q)
+        return rst

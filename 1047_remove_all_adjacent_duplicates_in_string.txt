@@ -1,0 +1,23 @@
+class Solution:
+    def removeDuplicates(self, s: str) -> str:
+        # string
+        s = '1' + s
+        prev = 0
+        nxt = 1
+        while nxt < len(s):
+            if s[nxt] != s[prev]:
+                nxt += 1
+                prev += 1
+            else:
+                s = s[:prev] + s[nxt + 1:]
+                prev, nxt = prev - 1, prev
+        return s[1:]
+        
+        # stack
+        stack = []
+        for c in s:
+            if stack and stack[-1] == c:
+                stack.pop()
+            else:
+                stack.append(c)
+        return ''.join(stack)
