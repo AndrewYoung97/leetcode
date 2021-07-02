@@ -1,0 +1,26 @@
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        rst = True
+        goto = collections.defaultdict(list)
+        for c, pre in prerequisites:
+            goto[pre].append(c)
+        visited = set()
+        in_path = set()
+        
+        def dfs(idx):
+            nonlocal rst
+            
+            if rst and idx not in visited:
+                in_path.add(idx)
+                for c in goto[idx]:
+                    if c in in_path:
+                        rst = False
+                    else:
+                        dfs(c)
+                visited.add(idx)
+                in_path.remove(idx)
+        for c in range(numCourses):
+            if c not in visited and rst:
+                dfs(c)
+                in_path = set()
+        return rst
