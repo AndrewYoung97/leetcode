@@ -1,0 +1,20 @@
+class Solution:
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
+        graph = collections.defaultdict(list)
+        vertices = set([i for i in range(n)])
+        for edge in edges:
+            graph[edge[0]].append(edge[1])
+            graph[edge[1]].append(edge[0])
+            
+        def dfs_helper(vex):
+            vertices.discard(vex)
+            for v in graph[vex]:
+                if v in vertices:
+                    dfs_helper(v)
+        
+        rst = 0
+        while vertices:
+            cur_vex = vertices.pop()
+            rst += 1
+            dfs_helper(cur_vex)
+        return rst

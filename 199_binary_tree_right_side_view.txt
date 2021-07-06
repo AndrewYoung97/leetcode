@@ -1,0 +1,11 @@
+class Solution:
+    def rightSideView(self, root: TreeNode) -> List[int]:
+        def helper(node):
+            if not node:
+                return []
+            right_rst = [node.val]
+            left_rst = [node.val]
+            right_rst += helper(node.right)
+            left_rst += helper(node.left)
+            return right_rst + left_rst[len(right_rst):]
+        return helper(root)

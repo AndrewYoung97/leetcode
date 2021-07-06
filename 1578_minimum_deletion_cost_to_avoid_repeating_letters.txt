@@ -1,0 +1,14 @@
+class Solution:
+    def minCost(self, s: str, cost: List[int]) -> int:
+        prev, cur = 0, 1
+        rst = 0
+        while cur < len(s):
+            if s[prev] == s[cur]:
+                while cur < len(s) and s[prev] == s[cur]:
+                    cur += 1
+                rst += sum(cost[prev: cur]) - max(cost[prev: cur])
+                prev = cur - 1
+            else:
+                prev += 1
+                cur += 1
+        return rst
