@@ -1,0 +1,21 @@
+class Solution:
+    def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
+        rst = []
+        cur_length = len(words[0])
+        cur_start = 0
+        for i in range(1, len(words)):
+            if cur_length + 1 + len(words[i]) > maxWidth:
+                if i - 1 - cur_start > 0:
+                    space_ass = (maxWidth - cur_length) // (i - 1 - cur_start)
+                    space_ass_left = (maxWidth - cur_length) % (i - 1 - cur_start)
+                    cur_rst = (' ' * (2 + space_ass)).join(words[cur_start:cur_start + space_ass_left + 1])
+                    cur_rst += (' ' * (1 + space_ass)) + (' ' * (1 + space_ass)).join(words[cur_start + space_ass_left + 1:i])
+                else:
+                    cur_rst = words[cur_start] + (' ' * (maxWidth - cur_length))
+                cur_start = i
+                cur_length = len(words[i])
+                rst.append(cur_rst)
+            else:
+                cur_length += len(words[i]) + 1
+        rst.append(' '.join(words[cur_start:]) + ' ' * (maxWidth - cur_length))
+        return rst
