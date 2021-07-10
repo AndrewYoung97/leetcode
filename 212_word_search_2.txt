@@ -1,0 +1,33 @@
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        trie = {}
+        for word in words:
+            node = trie
+            for c in word:
+                if c not in node:
+                    node[c] = {}
+                node = node[c]
+            node['#'] = word
+        move = [(-1, 0), (1, 0), (0, 1), (0, -1)]
+        rst = []
+
+        def helper(i, j, node):
+            if board[i][j] in node:
+                letter = board[i][j]
+                board[i][j] = '8'
+                parent = node
+                node = node[letter]
+                if '#' in node:
+                    rst.append(node['#'])
+                    node.pop('#', None)
+                for x, y in move:
+                    if 0 <= i + x < len(board) and 0 <= j + y < len(board[0]):
+                        helper(i + x, j + y, node)
+                board[i][j] = letter
+                if not node:
+                    parent.pop(board[i][j])
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] in trie:
+                    helper(i, j, trie)
+        return rst
