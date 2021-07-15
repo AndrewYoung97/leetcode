@@ -1,0 +1,11 @@
+class Solution:
+    def minDeletions(self, s: str) -> int:
+        counts = collections.Counter(s)
+        used = set()
+        rst = 0
+        for c, freq in counts.items():
+            while freq in used and freq > 0:
+                freq -= 1
+                rst += 1
+            used.add(freq)
+        return rst

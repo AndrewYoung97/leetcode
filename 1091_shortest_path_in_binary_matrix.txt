@@ -1,0 +1,22 @@
+class Solution:
+    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+        n = len(grid)
+        visited = set((n, n))
+        stack = [(n, n)]
+        rst = 0
+        while stack:
+            new_stack = []
+            while stack:
+                x, y = stack.pop()
+                for x_add in [0, 1, -1]:
+                    for y_add in [0, 1, -1]:
+                        new_x = x + x_add
+                        new_y = y + y_add
+                        if 0 <= new_x < n and 0 <= new_y < n and (new_x, new_y) not in visited and grid[new_x][new_y] == 0:
+                            if new_x == 0 and new_y == 0:
+                                return rst + 1
+                            new_stack.append((new_x, new_y))
+                            visited.add((new_x, new_y))
+            stack = new_stack
+            rst += 1
+        return -1
