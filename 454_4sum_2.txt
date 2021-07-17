@@ -1,0 +1,23 @@
+class Solution:
+    def fourSumCount(self, nums1: List[int], nums2: List[int], nums3: List[int], nums4: List[int]) -> int:
+        memo = {}
+        lists = [nums1, nums2, nums3, nums4]
+        
+        def addHash(i, cur_sum):
+            if i == len(lists) // 2:
+                memo[cur_sum] = memo.get(cur_sum, 0) + 1
+            else:
+                for n in lists[i]:
+                    addHash(i + 1, cur_sum + n)
+        
+        @lru_cache
+        def countRemain(i, cur_sum):
+            if i == len(lists):
+                return memo.get(-cur_sum, 0)
+            rst = 0
+            for n in lists[i]:
+                rst += countRemain(i + 1, cur_sum + n)
+            return rst
+        
+        addHash(0, 0)
+        return countRemain(len(lists) // 2, 0)

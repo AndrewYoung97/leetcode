@@ -1,0 +1,17 @@
+class Solution:
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, newColor: int) -> List[List[int]]:
+        stack = [(sr, sc)]
+        visited = set((sr, sc))
+        while stack:
+            new_stack = []
+            while stack:
+                cur_cell = stack.pop()
+                for x, y in [[-1, 0], [1, 0], [0, 1], [0, -1]]:
+                    new_x = cur_cell[0] + x
+                    new_y = cur_cell[1] + y
+                    if 0 <= new_x < len(image) and 0 <= new_y < len(image[0]) and (new_x, new_y) not in visited and image[new_x][new_y] == image[cur_cell[0]][cur_cell[1]]:
+                        visited.add((new_x, new_y))
+                        new_stack.append((new_x, new_y))
+                image[cur_cell[0]][cur_cell[1]] = newColor
+            stack = new_stack
+        return image
