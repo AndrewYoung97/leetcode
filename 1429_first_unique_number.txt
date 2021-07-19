@@ -1,0 +1,24 @@
+class FirstUnique:
+
+    def __init__(self, nums: List[int]):
+        self.num_seen = set()
+        self.dict = collections.OrderedDict()
+        for n in nums:
+            if n in self.num_seen:
+                self.dict.pop(n, None)
+            else:
+                self.num_seen.add(n)
+                self.dict[n] = 1
+
+    def showFirstUnique(self) -> int:
+        if not self.dict:
+            return -1
+        for n in self.dict.keys():
+            return n
+
+    def add(self, value: int) -> None:
+        if value in self.num_seen:
+            self.dict.pop(value, None)
+        else:
+            self.num_seen.add(value)
+            self.dict[value] = 1
